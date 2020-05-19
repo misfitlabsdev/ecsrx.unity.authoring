@@ -7,7 +7,9 @@ using EcsRx.Groups.Observable;
 using EcsRx.Plugins.Views.Components;
 using EcsRx.Systems;
 using EcsRx.Unity.MonoBehaviours;
+using MisfitLabs.EcsRx.Unity.Authoring.Components;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
@@ -16,7 +18,6 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
     {
         private readonly IEntityDatabase _entityDatabase;
 
-        // TODO: Remove GameObjects when they are destroyed.
         private readonly List<ConvertToEntity> _entitiesToConvert = new List<ConvertToEntity>();
         private readonly Dictionary<GameObject, IEntity> _entitiesByGameObject = new Dictionary<GameObject, IEntity>();
 
@@ -94,11 +95,22 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
             var entityCollection = _entityDatabase.GetCollection();
             var entity = entityCollection.CreateEntity();
 
-            entity.AddComponents(new ViewComponent {View = gameObject});
+            entity.AddComponents(
+                new ViewComponent {View = gameObject, DestroyWithView = true},
+                new ConvertedComponent());
 
             var entityBinding = gameObject.AddComponent<EntityView>();
             entityBinding.Entity = entity;
             entityBinding.EntityCollection = entityCollection;
+
+            // TODO: This handles destroying the entity when the game object is destroyed, we also need the other way.
+            gameObject.OnDestroyAsObservable()
+                .Subscribe(x =>
+                {
+                    entityBinding.EntityCollection.RemoveEntity(entity.Id);
+                    _entitiesByGameObject.Remove(entityBinding.gameObject);
+                })
+                .AddTo(gameObject);
 
             _entitiesByGameObject.Add(gameObject, entity);
 

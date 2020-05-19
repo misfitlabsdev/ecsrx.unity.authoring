@@ -16,13 +16,15 @@ namespace MisfitLabs.EcsRx.Unity.Authoring
         public void SetupDependencies(IDependencyContainer container)
         {
             container.Bind<ConvertToEntitySystem>();
+            container.Bind<ConvertedEntityDestructionSystem>();
         }
 
         public IEnumerable<ISystem> GetSystemsForRegistration(IDependencyContainer container)
         {
             return new List<ISystem>
             {
-                container.Resolve<ConvertToEntitySystem>()
+                container.Resolve<ConvertToEntitySystem>(),
+                container.Resolve<ConvertedEntityDestructionSystem>()
             };
         }
     }
