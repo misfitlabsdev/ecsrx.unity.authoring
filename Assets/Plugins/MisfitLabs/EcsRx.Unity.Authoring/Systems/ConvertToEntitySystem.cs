@@ -103,7 +103,6 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
             entityBinding.Entity = entity;
             entityBinding.EntityCollection = entityCollection;
 
-            // TODO: This handles destroying the entity when the game object is destroyed, we also need the other way.
             gameObject.OnDestroyAsObservable()
                 .Subscribe(x =>
                 {

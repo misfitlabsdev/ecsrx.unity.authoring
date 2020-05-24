@@ -20,7 +20,7 @@ namespace MisfitLabs.EcsRx.Unity.Authoring
         internal ConvertToEntitySystem ConvertToEntitySystem { get; private set; }
 
         [Inject]
-        public void AddForConversion()
+        internal void AddForConversion()
         {
             ConvertToEntitySystem.AddToBeConverted(this);
         }
