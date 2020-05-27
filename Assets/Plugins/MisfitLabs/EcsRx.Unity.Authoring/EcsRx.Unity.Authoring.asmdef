@@ -1,0 +1,16 @@
+{
+    "name": "EcsRx.Unity.Authoring",
+    "references": [
+        "EcsRx.Unity",
+        "UniRx"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
