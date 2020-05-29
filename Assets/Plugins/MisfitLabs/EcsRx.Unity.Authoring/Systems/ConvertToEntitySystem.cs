@@ -108,8 +108,7 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
                 {
                     entityBinding.EntityCollection.RemoveEntity(entity.Id);
                     _entitiesByGameObject.Remove(entityBinding.gameObject);
-                })
-                .AddTo(gameObject);
+                });
 
             _entitiesByGameObject.Add(gameObject, entity);
 
