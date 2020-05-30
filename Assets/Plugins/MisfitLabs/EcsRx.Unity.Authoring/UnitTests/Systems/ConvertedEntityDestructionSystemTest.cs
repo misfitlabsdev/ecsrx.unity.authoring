@@ -6,11 +6,6 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
 {
     public class ConvertedEntityDestructionSystemTest
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Test_Group_Requires_ViewComponent()
         {
