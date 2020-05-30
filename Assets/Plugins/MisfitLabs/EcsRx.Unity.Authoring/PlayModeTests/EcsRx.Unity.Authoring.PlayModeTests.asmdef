@@ -3,6 +3,7 @@
     "references": [
         "EcsRx.Unity",
         "EcsRx.Unity.Authoring",
+        "EcsRx.Zenject",
         "UniRx",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"

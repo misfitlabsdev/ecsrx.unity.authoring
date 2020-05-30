@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Plugins/MisfitLabs/EcsRx.Unity.Authoring/PlayModeTests/Scenes/PlayModeTestsScene.unity
+    guid: 4af0215451b994fc99d5015524425d94
   m_configObjects: {}
