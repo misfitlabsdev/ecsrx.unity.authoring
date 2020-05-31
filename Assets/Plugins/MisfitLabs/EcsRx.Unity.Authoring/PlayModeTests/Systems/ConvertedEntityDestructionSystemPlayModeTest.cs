@@ -12,11 +12,6 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
 {
     public class ConvertedEntityDestructionSystemPlayModeTest
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [UnityTest]
         public IEnumerator Test_Destroys_GameObject_On_Teardown()
         {
