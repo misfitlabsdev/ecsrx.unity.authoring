@@ -1,0 +1,30 @@
+{
+    "name": "EcsRx.Unity.Authoring.PlayModeTests",
+    "references": [
+        "EcsRx.Unity",
+        "EcsRx.Unity.Authoring",
+        "EcsRx.Zenject",
+        "UniRx",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "EcsRx.dll",
+        "EcsRx.MicroRx.dll",
+        "EcsRx.Infrastructure.dll",
+        "EcsRx.Plugins.Batching.dll",
+        "EcsRx.Plugins.Computeds.dll",
+        "EcsRx.Plugins.ReactiveSystems.dll",
+        "EcsRx.Plugins.Views.dll",
+        "NSubstitute.dll",
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
