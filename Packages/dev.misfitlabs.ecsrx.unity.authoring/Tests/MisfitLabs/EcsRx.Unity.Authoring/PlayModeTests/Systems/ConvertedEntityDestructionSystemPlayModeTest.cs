@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿﻿using System.Collections;
 using EcsRx.Entities;
 using EcsRx.Plugins.Views.Components;
 using NSubstitute;
