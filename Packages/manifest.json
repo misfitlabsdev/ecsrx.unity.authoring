@@ -4,6 +4,7 @@
     "com.unity.ide.rider": "1.1.4",
     "com.unity.test-framework": "1.1.14",
     "com.unity.ugui": "1.0.0",
+    "dev.misfitlabs.ecsrx.unity.authoring": "https://github.com/misfitlabsdev/ecsrx.unity.authoring.git",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -35,5 +36,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "dev.misfitlabs.ecsrx.unity.authoring": {
+      "revision": "HEAD",
+      "hash": "e01cc3995ddf3860502559c7c960bfa7e3a81cab"
+    }
   }
 }
