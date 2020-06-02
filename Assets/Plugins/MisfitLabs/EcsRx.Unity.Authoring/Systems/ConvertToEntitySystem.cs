@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using EcsRx.Collections.Database;
+using EcsRx.Collections.Entity;
 using EcsRx.Entities;
 using EcsRx.Extensions;
 using EcsRx.Groups;
@@ -11,6 +13,7 @@ using MisfitLabs.EcsRx.Unity.Authoring.Components;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
 {
@@ -20,6 +23,8 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
 
         private readonly List<ConvertToEntity> _entitiesToConvert = new List<ConvertToEntity>();
         private readonly Dictionary<GameObject, IEntity> _entitiesByGameObject = new Dictionary<GameObject, IEntity>();
+
+        private IDisposable _updateSubscription;
 
         public IGroup Group { get; } = new EmptyGroup();
 
@@ -32,12 +37,13 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
         {
             // TODO: Test/confirm that conversions on prefabs and other objects after the scene is already running
             //  still convert correctly.
-            Observable.EveryUpdate()
+            _updateSubscription = Observable.EveryUpdate()
                 .Subscribe(x => Convert());
         }
 
         public void StopSystem(IObservableGroup observableGroup)
         {
+            _updateSubscription.Dispose();
         }
 
         public void AddToBeConverted(ConvertToEntity convertToEntity)
@@ -68,13 +74,11 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
             {
                 if (!toConvert.gameObject.activeInHierarchy || !toConvert.gameObject.activeSelf)
                 {
-                    // TODO: Instead of returning here maybe it's better to make sure only active objects get added to convert.
                     continue;
                 }
 
                 if (toConvert.IsConverted) continue;
 
-                // TODO: Consider allowing use of different collections.
                 ConvertGameObject(toConvert);
 
                 toConvert.IsConverted = true;
@@ -85,16 +89,30 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
                 Object.Destroy(toDestroy);
             }
 
+            // TODO: Should we keep inactive ones so they can be converted later when they become active?
             _entitiesToConvert.Clear();
         }
 
         private IEntity ConvertGameObject(ConvertToEntity toConvert)
         {
-            var gameObject = toConvert.gameObject;
-
+            // TODO: Consider allowing use of different collections.
             var entityCollection = _entityDatabase.GetCollection();
             var entity = entityCollection.CreateEntity();
 
+            var gameObject = toConvert.gameObject;
+            SetupEntityBinding(gameObject, entity, entityCollection);
+
+            _entitiesByGameObject.Add(gameObject, entity);
+
+            ConvertComponents(gameObject, entity);
+
+            toConvert.IsConverted = true;
+
+            return entity;
+        }
+
+        private void SetupEntityBinding(GameObject gameObject, IEntity entity, IEntityCollection entityCollection)
+        {
             entity.AddComponents(
                 new ViewComponent {View = gameObject, DestroyWithView = true},
                 new ConvertedComponent());
@@ -103,17 +121,16 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
             entityBinding.Entity = entity;
             entityBinding.EntityCollection = entityCollection;
 
-            // TODO: This handles destroying the entity when the game object is destroyed, we also need the other way.
             gameObject.OnDestroyAsObservable()
                 .Subscribe(x =>
                 {
                     entityBinding.EntityCollection.RemoveEntity(entity.Id);
                     _entitiesByGameObject.Remove(entityBinding.gameObject);
-                })
-                .AddTo(gameObject);
+                });
+        }
 
-            _entitiesByGameObject.Add(gameObject, entity);
-
+        private void ConvertComponents(GameObject gameObject, IEntity entity)
+        {
             var componentConversions = new List<IComponentConversion>();
             gameObject.GetComponents(componentConversions);
             foreach (var conversion in componentConversions)
@@ -121,10 +138,6 @@ namespace MisfitLabs.EcsRx.Unity.Authoring.Systems
                 conversion.Convert(entity, this);
                 Object.Destroy((Component) conversion);
             }
-
-            toConvert.IsConverted = true;
-
-            return entity;
         }
     }
 }

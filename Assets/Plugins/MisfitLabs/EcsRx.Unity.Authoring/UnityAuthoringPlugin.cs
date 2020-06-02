@@ -8,6 +8,9 @@ using MisfitLabs.EcsRx.Unity.Authoring.Systems;
 
 namespace MisfitLabs.EcsRx.Unity.Authoring
 {
+    /// <summary>
+    /// A plugin for EcsRx for enabling Unity-based Authoring.
+    /// </summary>
     public class UnityAuthoringPlugin : IEcsRxPlugin
     {
         public string Name => "Unity Authoring Plugin";
