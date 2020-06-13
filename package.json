@@ -3,5 +3,11 @@
   "version": "0.1.1",
   "displayName": "EcsRx.Unity.Authoring",
   "description": "Unity-based Authoring for EcsRx",
-  "unity": "2019.3"
+  "unity": "2019.3",
+  "files": [
+    "/package.json",
+    "/package.json.meta",
+    "/Runtime",
+    "/Runtime.meta"
+  ]
 }
